@@ -18,14 +18,14 @@ $tipo_expediente = $_GET['tipo'];
 $expediente = null;
 
 if ($tipo_expediente == 'edif') {
-    $sql = "SELECT exp.*, s.numero_sesion, s.fecha_sesion, s.provincia, s.distrito, s.delegado 
-            FROM expedientes_edificaciones exp 
-            JOIN sesiones s ON exp.id_sesion = s.id 
+    $sql = "SELECT exp.*, s.numero_sesion, s.fecha_sesion, s.provincia, s.distrito, s.delegado
+            FROM expedientes_edificaciones exp
+            JOIN sesiones s ON exp.id_sesion = s.id
             WHERE exp.id = ?";
 } elseif ($tipo_expediente == 'hab') {
-    $sql = "SELECT exp.*, s.numero_sesion, s.fecha_sesion, s.provincia, s.distrito, s.delegado 
-            FROM expedientes_habilitaciones exp 
-            JOIN sesiones s ON exp.id_sesion = s.id 
+    $sql = "SELECT exp.*, s.numero_sesion, s.fecha_sesion, s.provincia, s.distrito, s.delegado
+            FROM expedientes_habilitaciones exp
+            JOIN sesiones s ON exp.id_sesion = s.id
             WHERE exp.id = ?";
 } else {
     echo '<div class="alert alert-danger">Tipo de expediente no reconocido.</div>';
@@ -57,6 +57,18 @@ $result_pagos = $query_pagos->get_result();
 
 <!-- --- 4. MOSTRAR TODA LA INFORMACIÓN --- -->
 
+<?php if (isset($_SESSION['message'])): ?>
+    <div class="alert alert-<?php echo $_SESSION['message_type']; ?> alert-dismissible fade show" role="alert">
+        <?php echo $_SESSION['message']; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php
+    // Limpiamos el mensaje para que no se muestre de nuevo al recargar
+    unset($_SESSION['message']);
+    unset($_SESSION['message_type']);
+?>
+<?php endif; ?>
+
 <div class="d-flex justify-content-between align-items-center">
     <h1 class="mt-4">Detalle Completo del Expediente</h1>
     <a href="editar_expediente.php?tipo=<?php echo $tipo_expediente; ?>&id=<?php echo $id_expediente; ?>" class="btn btn-primary">
@@ -87,7 +99,7 @@ $result_pagos = $query_pagos->get_result();
                 <p><strong>Modalidad:</strong> <?php echo htmlspecialchars($expediente['modalidad']); ?></p>
                 <p><strong>Fecha Ingreso:</strong> <?php echo date("d/m/Y", strtotime($expediente['fecha_ingreso'])); ?></p>
                 <p><strong>Presentación:</strong> <span class="badge bg-secondary"><?php echo htmlspecialchars($expediente['presentacion']); ?></span></p>
-                
+
                 <?php if ($tipo_expediente == 'edif'): ?>
                     <p><strong>Tipo de Obra:</strong> <span class="badge bg-secondary"><?php echo htmlspecialchars($expediente['tipo_obra']); ?></span></p>
                 <?php endif; ?>
@@ -158,8 +170,8 @@ $result_pagos = $query_pagos->get_result();
                 <?php while($pago = $result_pagos->fetch_assoc()): ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
-                            <strong>Nº Credipago:</strong> <?php echo htmlspecialchars($pago['numero_credipago']); ?> | 
-                            <strong>Monto:</strong> S/ <?php echo number_format($pago['monto'], 2); ?> | 
+                            <strong>Nº Credipago:</strong> <?php echo htmlspecialchars($pago['numero_credipago']); ?> |
+                            <strong>Monto:</strong> S/ <?php echo number_format($pago['monto'], 2); ?> |
                             <strong>Fecha:</strong> <?php echo date("d/m/Y", strtotime($pago['fecha_pago'])); ?>
                         </div>
                         <?php if (!empty($pago['comprobante_ruta'])): ?>
