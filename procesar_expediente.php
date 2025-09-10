@@ -63,8 +63,19 @@ if (isset($_POST['id_expediente']) && !empty($_POST['id_expediente'])) {
             $reconsideracion = isset($_POST['reconsideracion']) ? 1 : 0;
             $apelacion = isset($_POST['apelacion']) ? 1 : 0;
 
+// Sanitizar campos opcionales para evitar errores con valores vacíos
+            $fecha_revision = !empty($_POST['fecha_revision']) ? $_POST['fecha_revision'] : null;
+            $numero_revision = !empty($_POST['numero_revision']) ? $_POST['numero_revision'] : null;
+            $dictamen = !empty($_POST['dictamen']) ? $_POST['dictamen'] : null;
+            $area_terreno = !empty($_POST['area_terreno']) ? $_POST['area_terreno'] : null;
+            $area_techada = !empty($_POST['area_techada']) ? $_POST['area_techada'] : null;
+            $altura_pisos = !empty($_POST['altura_pisos']) ? $_POST['altura_pisos'] : null;
+            $altura_metros = !empty($_POST['altura_metros']) ? $_POST['altura_metros'] : null;
+
             $stmt_exp = $conn->prepare("UPDATE expedientes_edificaciones SET modalidad = ?, numero_expediente = ?, fecha_ingreso = ?, presentacion = ?, tipo_obra = ?, usos = ?, fecha_revision = ?, numero_revision = ?, dictamen = ?, recurso_reconsideracion = ?, recurso_apelacion = ?, archivo_revision = ?, area_terreno = ?, area_techada = ?, altura_pisos = ?, altura_metros = ?, administrado = ?, proyectista_responsable = ?, cap_proyectista = ? WHERE id = ?");
-            $stmt_exp->bind_param("ssssssisissddddsssi", $_POST['modalidad'], $_POST['numero_expediente'], $_POST['fecha_ingreso'], $presentacion_str, $tipo_obra_str, $usos_str, $_POST['fecha_revision'], $_POST['numero_revision'], $_POST['dictamen'], $reconsideracion, $apelacion, $final_file_path, $_POST['area_terreno'], $_POST['area_techada'], $_POST['altura_pisos'], $_POST['altura_metros'], $_POST['administrado'], $_POST['proyectista_responsable'], $_POST['cap_proyectista'], $id_expediente);
+            $stmt_exp->bind_param("sssssssisisddddsssi", $_POST['modalidad'], $_POST['numero_expediente'], $_POST['fecha_ingreso'], $presentacion_str, $tipo_obra_str, $usos_str, $fecha_revision, $numero_revision, $dictamen, $reconsideracion, $apelacion, $final_file_path, $area_terreno, $area_techada, $altura_pisos, $altura_metros, $_POST['administrado'], $_POST['proyectista_responsable'], $_POST['cap_proyectista'], $id_expediente);
+
+            
             $stmt_exp->execute();
             $redirect_tipo = 'edif';
 
