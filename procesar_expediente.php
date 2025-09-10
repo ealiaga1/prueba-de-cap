@@ -97,7 +97,7 @@ if (isset($_POST['id_expediente']) && !empty($_POST['id_expediente'])) {
                     $comprobante_file = ['name' => $_FILES['pagos']['name'][$index]['comprobante'], 'type' => $_FILES['pagos']['type'][$index]['comprobante'], 'tmp_name' => $_FILES['pagos']['tmp_name'][$index]['comprobante'], 'error' => $_FILES['pagos']['error'][$index]['comprobante'], 'size' => $_FILES['pagos']['size'][$index]['comprobante']];
                     $ruta_comprobante = handleFileUpload($comprobante_file, 'comprobantes');
                     if ($ruta_comprobante || !empty($pago['monto'])) {
-                         $stmt_pago->bind_param("isdss", $id_expediente, $tipo_pago_db, $pago['credipago'], $pago['monto'], $pago['fecha_pago'], $ruta_comprobante);
+                         $stmt_pago->bind_param("issdss", $id_expediente, $tipo_pago_db, $pago['credipago'], $pago['monto'], $pago['fecha_pago'], $ruta_comprobante);
                          $stmt_pago->execute();
                     }
                 }
@@ -199,7 +199,7 @@ if (isset($_POST['id_expediente']) && !empty($_POST['id_expediente'])) {
             $dictamen = !empty($_POST['dictamen']) ? $_POST['dictamen'] : null;
             $ancho_vias = !empty($_POST['ancho_vias']) ? $_POST['ancho_vias'] : null;
             $area_terreno = !empty($_POST['area_terreno']) ? $_POST['area_terreno'] : null;
-            $stmt_expediente->bind_param("isssssssisdsiisssds", $id_sesion_creada, $_POST['modalidad'], $_POST['numero_expediente'], $_POST['fecha_ingreso'], $presentacion_str, $_POST['presentacion_otros'], $usos_str, $fecha_revision, $numero_revision, $dictamen, $ancho_vias, $ruta_archivo_vias, $reconsideracion, $apelacion, $_POST['ubicacion_predio'], $_POST['propietario'], $area_terreno, $_POST['proyectista_responsable'], $_POST['cap_proyectista']);
+            $stmt_expediente->bind_param("isssssssisdsiissdss", $id_sesion_creada, $_POST['modalidad'], $_POST['numero_expediente'], $_POST['fecha_ingreso'], $presentacion_str, $_POST['presentacion_otros'], $usos_str, $fecha_revision, $numero_revision, $dictamen, $ancho_vias, $ruta_archivo_vias, $reconsideracion, $apelacion, $_POST['ubicacion_predio'], $_POST['propietario'], $area_terreno, $_POST['proyectista_responsable'], $_POST['cap_proyectista']);
             $stmt_expediente->execute();
             $id_expediente_creado = $conn->insert_id;
             if ($id_expediente_creado == 0) throw new Exception("Error al crear el expediente.");
