@@ -4,6 +4,18 @@ require_once 'includes/db_connection.php';
 require_once 'includes/header.php';
 require_once 'includes/sidebar.php';
 
+// --- BLOQUE DE MENSAJES DE SESIÓN ---
+if (isset($_SESSION['message'])): ?>
+    <div class="alert alert-<?php echo $_SESSION['message_type']; ?> alert-dismissible fade show" role="alert">
+        <?php echo $_SESSION['message']; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php
+    unset($_SESSION['message']);
+    unset($_SESSION['message_type']);
+endif;
+// --- FIN DEL BLOQUE ---
+
 // 1. Validar parámetros
 if (!isset($_GET['id']) || !is_numeric($_GET['id']) || !isset($_GET['tipo'])) {
     echo '<div class="alert alert-danger">Parámetros no válidos.</div>';
@@ -35,7 +47,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $expediente = $result->fetch_assoc();
-    
+
     // Ahora obtenemos los datos de la sesión
     $stmt_sesion = $conn->prepare("SELECT * FROM sesiones WHERE id = ?");
     $stmt_sesion->bind_param("i", $expediente['id_sesion']);
@@ -57,7 +69,7 @@ $usos_array = explode(',', $expediente['usos']);
 // 4. Incluir el formulario correspondiente
 if ($tipo_expediente_full == 'edificaciones') {
     // La variable $expediente, $sesion, y los arrays estarán disponibles dentro del form
-    include('forms/form_edificaciones.php'); 
+    include('forms/form_edificaciones.php');
 } elseif ($tipo_expediente_full == 'habilitaciones_urbanas') {
     // Faltaría adaptar el form_habilitaciones.php para la edición
     include('forms/form_habilitaciones.php');
