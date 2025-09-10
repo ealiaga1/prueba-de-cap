@@ -1,0 +1,153 @@
+body {
+    overflow-x: hidden;
+    background-color: #f8f9fa;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    width: 250px;
+    margin-left: -250px;
+    transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -250px;
+    }
+}
+
+/* --- Reemplaza las reglas anteriores de .login-body, etc. con estas --- */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa; /* Un fondo gris muy claro */
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px; /* Ancho del cuadro de login */
+  padding: 2rem;
+  border: none;
+  border-radius: 0.5rem; /* Bordes redondeados */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+/* ======================================================= */
+/*          ESTILOS PARA LA IMPRESIÓN                      */
+/* ======================================================= */
+@media print {
+    /* Ocultar todo lo que no queremos en el PDF */
+    body.login-page, 
+    #sidebar-wrapper, 
+    #page-content-wrapper > .navbar, 
+    .card-header .fas.fa-filter,
+    .card-body form,
+    .btn {
+        display: none !important;
+    }
+
+    /* Asegurarnos de que el contenido principal ocupe todo el ancho */
+    #page-content-wrapper {
+        min-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .card {
+        border: 1px solid #dee2e6 !important; /* Añadir bordes visibles */
+        box-shadow: none !important; /* Quitar sombras */
+        page-break-inside: avoid; /* Intentar no cortar las tarjetas a la mitad */
+    }
+    
+    .card-header {
+        background-color: #f8f9fa !important; /* Fondo claro para ahorrar tinta */
+    }
+    
+    h1, p {
+        text-align: center;
+    }
+
+    /* Forzar la impresión de los colores de fondo de los gráficos y tarjetas KPI */
+    .card, canvas {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
+/* ======================================================= */
+/*          NUEVOS ESTILOS PARA EL SIDEBAR                 */
+/* ======================================================= */
+
+/* Color de fondo y personalización general del sidebar */
+#sidebar-wrapper {
+    background-color: #f8f9fa; /* Mantenemos un fondo claro pero podemos cambiarlo */
+    border-right: 1px solid #e0e0e0; /* Borde derecho más sutil */
+}
+
+/* Estilo general para cada item del menú */
+.list-group-item {
+    background-color: transparent; /* Fondo transparente por defecto */
+    border: none; /* Quitamos los bordes por defecto */
+    padding: 1rem 1.5rem; /* Aumentamos el espaciado interno */
+    color: #5a5a5a; /* Color de texto más suave */
+    font-weight: 500;
+    transition: all 0.2s ease-in-out; /* Transición suave para el hover */
+}
+
+/* Estilo para los íconos */
+.list-group-item i {
+    color: #888;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Efecto al pasar el mouse (HOVER) sobre un item */
+.list-group-item:not(.active):hover {
+    background-color: #e9ecef; /* Un gris muy claro de fondo */
+    color: #0d6efd; /* Color primario de Bootstrap */
+    transform: translateX(5px); /* Pequeño movimiento a la derecha */
+}
+
+.list-group-item:not(.active):hover i {
+    color: #0d6efd; /* El ícono también cambia de color */
+}
+
+/* Estilo para el item ACTIVO (la página actual) */
+.list-group-item.active {
+    background-color: #0d6efd; /* Fondo azul primario */
+    color: #ffffff; /* Texto blanco */
+    border-left: 5px solid #0a58ca; /* Borde izquierdo para resaltar */
+    font-weight: 700;
+}
+
+.list-group-item.active i {
+    color: #ffffff; /* El ícono también es blanco */
+}
+
+/* Estilo para el divisor */
+.sidebar-divider {
+    border-top: 1px solid #dcdcdc;
+}
